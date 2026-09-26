@@ -7,15 +7,15 @@ const siswaRoutes = require('./routes/siswa_routes');
 const app = express();
 const PORT = 3000;
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// Koneksi Database
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '', // Sesuaikan jika ada password
+    password: '', 
     database: 'db_siswa'
 });
 
@@ -24,9 +24,7 @@ db.connect(err => {
     else console.log('Terhubung ke database MySQL');
 });
 
-// --- ENDPOINT REST API ---
 
-// 1. GET /api/siswa - Menampilkan semua siswa
 app.get('/api/siswa', (req, res) => {
     db.query('SELECT * FROM siswa', (err, results) => {
         if (err) return res.status(500).json({ status: false, message: err.message });
@@ -34,7 +32,7 @@ app.get('/api/siswa', (req, res) => {
     });
 });
 
-// 2. GET /api/siswa/:id - Menampilkan satu siswa
+
 app.get('/api/siswa/:id', (req, res) => {
     const { id } = req.params;
     db.query('SELECT * FROM siswa WHERE id = ?', [id], (err, results) => {
@@ -44,7 +42,7 @@ app.get('/api/siswa/:id', (req, res) => {
     });
 });
 
-// 3. POST /api/siswa - Menambahkan siswa
+
 app.post('/api/siswa', (req, res) => {
     const { nis, nama, kelas, jurusan, alamat } = req.body;
     if (!nis || !nama || !kelas || !jurusan || !alamat) {
@@ -60,7 +58,7 @@ app.post('/api/siswa', (req, res) => {
     );
 });
 
-// 4. PUT /api/siswa/:id - Mengubah data siswa
+
 app.put('/api/siswa/:id', (req, res) => {
     const { id } = req.params;
     const { nis, nama, kelas, jurusan, alamat } = req.body;
@@ -75,7 +73,7 @@ app.put('/api/siswa/:id', (req, res) => {
     );
 });
 
-// 5. DELETE /api/siswa/:id - Menghapus siswa
+
 app.delete('/api/siswa/:id', (req, res) => {
     const { id } = req.params;
     db.query('DELETE FROM siswa WHERE id = ?', [id], (err, result) => {
